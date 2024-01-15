@@ -15,6 +15,21 @@ const tasksSlice = createSlice({
   name: "tasks",
   initialState: initialState,
   reducers: {
+    addNewTask(state, action: PayloadAction<Task>) {
+      state.tasks = [action.payload, ...state.tasks];
+    },
+    editTask(state, action: PayloadAction<Task>) {
+      const { completed, description, tags, title, id } = action.payload;
+
+      const newTaskEdited: Task = state.tasks.find(
+        (task: Task) => task.id === id
+      )!;
+
+      newTaskEdited.title = title
+      newTaskEdited.description = description
+      newTaskEdited.completed = completed
+      newTaskEdited.tags = tags
+    },
     removeTask(state, action) {
       const newTasksList = state.tasks.filter(
         (task) => task.id !== action.payload

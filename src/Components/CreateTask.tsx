@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useState, forwardRef, useEffect } from 'react';
 import {
     Button,
@@ -17,6 +18,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TransitionProps } from '@mui/material/transitions';
 import { setModal } from '../store/slices/modalSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { tasksActions } from '../store/slices/tasksSlice';
+import { toast } from 'react-toastify';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -47,6 +50,37 @@ export const CreateTask = () => {
         setDescription('')
         setTags('')
     }
+
+    const updateTaskHandler = () => {
+        if (modal.task) {
+            dispatch(tasksActions.editTask({
+                id: modal.task.id,
+                title,
+                description,
+                completed,
+                tags: tags.split(',').filter((e) => e),
+            }));
+
+            toast.success("Task Updated Successfully")
+            resetFrom()
+        } else {
+            toast.error("Error When Update Task")
+        }
+    };
+
+
+    const createNewTaskHandler = () => {
+        dispatch(tasksActions.addNewTask({
+            id: uuidv4(),
+            title,
+            description,
+            completed: false,
+            tags: tags.split(',').filter((e) => e),
+        }));
+
+        toast.success("Task Created Successfully")
+        resetFrom()
+    };
 
     useEffect(() => {
         if (modal.createOrUpdate === 'update' && modal.task) {
@@ -132,8 +166,8 @@ export const CreateTask = () => {
             </DialogContent>
             <DialogActions>
                 {modal.createOrUpdate === 'create' ?
-                    <Button type='submit'>Create</Button> :
-                    <Button type='submit'>Update</Button>
+                    <Button type='submit' onClick={createNewTaskHandler}>Create</Button> :
+                    <Button type='submit' onClick={updateTaskHandler}>Update</Button>
                 }
                 <Button onClick={handleClose}>Cancel</Button>
             </DialogActions>
