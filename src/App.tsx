@@ -3,6 +3,8 @@ import { Navbar } from "./Components/Navbar";
 import { Provider } from "react-redux";
 import store from "./store";
 import { HomePage } from "./Pages/HomePage";
+import { Bounce, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // Mui Dark Theme
@@ -20,6 +22,12 @@ export const App: React.FC = () => {
                 {/* Mui Theme Provider */}
                 <ThemeProvider theme={darkTheme}>
                     <Navbar />
+                    {/* Toast Container (UI) */}
+                    <ToastContainer
+                        theme="dark"
+                        autoClose={1000}
+                        transition={Bounce}
+                    />
                     <HomePage />
                 </ThemeProvider>
             </Box >
