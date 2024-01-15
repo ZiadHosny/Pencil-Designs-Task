@@ -38,7 +38,6 @@ export const CreateTask = () => {
     const [description, setDescription] = useState<string>('')
     const [tags, setTags] = useState<string>('')
     const [completed, setCompleted] = useState<boolean>(false)
-
     const handleClose = () => {
         resetFrom()
     };
@@ -51,6 +50,7 @@ export const CreateTask = () => {
         setTags('')
     }
 
+    // update task fn
     const updateTaskHandler = () => {
         if (modal.task) {
             dispatch(tasksActions.editTask({
@@ -68,7 +68,7 @@ export const CreateTask = () => {
         }
     };
 
-
+    // create task fn
     const createNewTaskHandler = () => {
         dispatch(tasksActions.addNewTask({
             id: uuidv4(),

@@ -7,7 +7,7 @@ import {
     Button,
 } from '@mui/material';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { tasksActions } from '../store/slices/tasksSlice';
 
 type DeleteAlertType = {
@@ -17,6 +17,7 @@ type DeleteAlertType = {
 }
 
 export const DeleteAlert = ({ open, setOpen, selectedId }: DeleteAlertType) => {
+    const { tasks } = useAppSelector((state) => state.tasks);
     const dispatch = useAppDispatch()
 
     const handleClose = () => {
@@ -41,7 +42,7 @@ export const DeleteAlert = ({ open, setOpen, selectedId }: DeleteAlertType) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Delete task with id : {selectedId}
+                    Delete task with title : {tasks.find((task) => task.id === selectedId)?.title}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
