@@ -1,18 +1,21 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import {
-    Box, Button
-} from '@mui/material';
-import { useAppSelector } from '../store/hooks';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { TaskRow } from './TaskRow';
+import { CreateTask } from './CreateTask';
+import { setModal } from '../store/slices/modalSlice';
 
 export const TaskTable = () => {
     const { tasks } = useAppSelector((state) => state.tasks);
+    const dispatch = useAppDispatch()
+
+    const openCreateModal = () => {
+        dispatch(setModal({ createOrUpdate: 'create', open: true }))
+    }
 
     return (
         <>
             <Box style={{ margin: 30, display: 'flex', justifyContent: 'flex-end' }}>
-                <Button variant='contained'> Create Task</Button>
+                <Button variant='contained' onClick={openCreateModal}> Create Task</Button>
             </Box>
             {!tasks?.length || tasks?.length <= 0 ?
                 <div>No Tasks Found</div>
@@ -39,6 +42,7 @@ export const TaskTable = () => {
                     </TableContainer >
                 </>
             }
+            <CreateTask />
         </>
     );
 }

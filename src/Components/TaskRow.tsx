@@ -13,11 +13,17 @@ import { DeleteAlert } from './DeleteAlert';
 import { useAppDispatch } from '../store/hooks';
 import { tasksActions } from '../store/slices/tasksSlice';
 import { toast } from 'react-toastify';
+import { setModal } from '../store/slices/modalSlice';
 
 export const TaskRow = ({ task }: { task: Task }) => {
     const dispatch = useAppDispatch()
     const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
     const [selectedId, setSelectedId] = useState('');
+
+    // Open Update Modal
+    const openUpdateModal = (task: Task) => {
+        dispatch(setModal({ createOrUpdate: 'update', open: true, task }))
+    }
 
     // Open Delete Alert
     const handleClickOpen = (id: string) => {
@@ -30,7 +36,6 @@ export const TaskRow = ({ task }: { task: Task }) => {
         dispatch(tasksActions.toggleTaskCompleted(taskId));
         toast.success("Task Completed Updated Successfully")
     }
-
 
     return (
         <>
@@ -58,8 +63,11 @@ export const TaskRow = ({ task }: { task: Task }) => {
                     >
                         <DeleteIcon style={{ color: 'white' }} />
                     </IconButton>
-
-                    <EditIcon style={{ color: 'white' }} />
+                    <IconButton
+                        onClick={() => openUpdateModal(task)}
+                    >
+                        <EditIcon style={{ color: 'white' }} />
+                    </IconButton>
                 </TableCell>
             </TableRow >
             {/* Delete Alert */}
