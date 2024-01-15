@@ -10,15 +10,27 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Task } from '../utils/types';
 import { useState } from 'react';
 import { DeleteAlert } from './DeleteAlert';
+import { useAppDispatch } from '../store/hooks';
+import { tasksActions } from '../store/slices/tasksSlice';
+import { toast } from 'react-toastify';
 
 export const TaskRow = ({ task }: { task: Task }) => {
+    const dispatch = useAppDispatch()
     const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
     const [selectedId, setSelectedId] = useState('');
 
+    // Open Delete Alert
     const handleClickOpen = (id: string) => {
         setOpenDeleteAlert(true);
         setSelectedId(id)
     };
+
+    // Toggle Task Complete 
+    const checkCompleteTask = (taskId: string) => {
+        dispatch(tasksActions.toggleTaskCompleted(taskId));
+        toast.success("Task Completed Updated Successfully")
+    }
+
 
     return (
         <>
@@ -29,7 +41,9 @@ export const TaskRow = ({ task }: { task: Task }) => {
                 <TableCell align="center">{task.title}</TableCell>
                 <TableCell align="center">{task.description}</TableCell>
                 <TableCell align="center">
-                    <Checkbox color="success" checked={task.completed} />
+                    <Checkbox color="success" checked={task.completed}
+                        onChange={() => checkCompleteTask(task.id)}
+                    />
                 </TableCell>
                 <TableCell align="center" style={{ maxWidth: 150 }}>
                     {task.tags.length > 0 ?

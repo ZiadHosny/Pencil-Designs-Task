@@ -1,5 +1,6 @@
 import {
   createSlice,
+  PayloadAction
 } from "@reduxjs/toolkit";
 import { defaultTasks } from "../../utils/constants";
 import { Task } from "../../utils/types";
@@ -19,6 +20,13 @@ const tasksSlice = createSlice({
         (task) => task.id !== action.payload
       );
       state.tasks = newTasksList;
+    },
+    toggleTaskCompleted(state, action: PayloadAction<string>) {
+      const taskId = action.payload;
+
+      const currTask = state.tasks.find((task) => task.id === taskId)!;
+
+      currTask.completed = !currTask.completed;
     },
   },
 });
