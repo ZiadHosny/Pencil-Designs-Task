@@ -2,6 +2,7 @@ import { Box, ThemeProvider, createTheme } from "@mui/material";
 import { Navbar } from "./Components/Navbar";
 import { Provider } from "react-redux";
 import store from "./store";
+import { HomePage } from "./Pages/HomePage";
 
 
 // Mui Dark Theme
@@ -19,8 +20,7 @@ export const App: React.FC = () => {
                 {/* Mui Theme Provider */}
                 <ThemeProvider theme={darkTheme}>
                     <Navbar />
-
-                    <div>App</div>
+                    <HomePage />
                 </ThemeProvider>
             </Box >
         </Provider>
